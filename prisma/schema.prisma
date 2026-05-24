@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  RECEPTIONIST
+}
+
+enum RoomStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CHECKED_IN
+  CHECKED_OUT
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL
+  PAID
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  BANK_TRANSFER
+  MOBILE_PAY
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         UserRole  @default(RECEPTIONIST)
+  bookings     Booking[] @relation("BookingCreator")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([email])
+}
+
+model Guest {
+  id        String    @id @default(cuid())
+  name      String
+  email     String?
+  phone     String
+  address   String?
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([phone])
+  @@index([name])
+}
+
+model RoomCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  basePrice   Decimal  @db.Decimal(10, 2)
+  rooms       Room[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Room {
+  id            String       @id @default(cuid())
+  roomNumber    String       @unique
+  categoryId    String
+  category      RoomCategory @relation(fields: [categoryId], references: [id])
+  pricePerNight Decimal      @db.Decimal(10, 2)
+  capacity      Int
+  status        RoomStatus   @default(AVAILABLE)
+  description   String?
+  imageUrl      String?
+  bookings      Booking[]
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([status])
+  @@index([categoryId])
+}
+
+model Booking {
+  id            String           @id @default(cuid())
+  guestId       String
+  guest         Guest            @relation(fields: [guestId], references: [id])
+  roomId        String
+  room          Room             @relation(fields: [roomId], references: [id])
+  createdById   String?
+  createdBy     User?            @relation("BookingCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  checkInDate   DateTime
+  checkOutDate  DateTime
+  totalNights   Int
+  roomTotal     Decimal          @db.Decimal(10, 2)
+  serviceTotal  Decimal          @default(0) @db.Decimal(10, 2)
+  totalAmount   Decimal          @db.Decimal(10, 2)
+  status        BookingStatus    @default(CONFIRMED)
+  notes         String?
+  payments      Payment[]
+  services      BookingService[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@index([guestId])
+  @@index([roomId, checkInDate, checkOutDate, status])
+  @@index([status])
+}
+
+model Payment {
+  id        String        @id @default(cuid())
+  bookingId String
+  booking   Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  amount    Decimal       @db.Decimal(10, 2)
+  method    PaymentMethod
+  status    PaymentStatus @default(PAID)
+  paidAt    DateTime?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+model Service {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  price       Decimal          @db.Decimal(10, 2)
+  isActive    Boolean          @default(true)
+  bookings    BookingService[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([isActive])
+}
+
+model BookingService {
+  id         String   @id @default(cuid())
+  bookingId  String
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  serviceId  String
+  service    Service  @relation(fields: [serviceId], references: [id])
+  quantity   Int      @default(1)
+  unitPrice  Decimal  @db.Decimal(10, 2)
+  totalPrice Decimal  @db.Decimal(10, 2)
+  createdAt  DateTime @default(now())
+
+  @@unique([bookingId, serviceId])
+  @@index([serviceId])
+}
