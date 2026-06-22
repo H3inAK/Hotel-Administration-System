@@ -123,8 +123,8 @@ export function RoomFormDialog({ open, onOpenChange, room, categories, onSaved }
             />
           </div>
           <div className="space-y-2 md:col-span-2">
-            <Label>Image URL</Label>
-            <Input {...form.register("imageUrl")} placeholder="https://example.com/room.jpg" />
+            <Label>Image Path</Label>
+            <Input {...form.register("imageUrl")} placeholder="/images/rooms/standard.jpg" />
             {form.formState.errors.imageUrl ? <p className="text-sm text-red-600">{form.formState.errors.imageUrl.message}</p> : null}
           </div>
           <div className="space-y-2 md:col-span-2">

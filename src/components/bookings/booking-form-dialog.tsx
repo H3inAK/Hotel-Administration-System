@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CheckCircle2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,10 @@ import type { Booking, BookingStatus, Guest, Room, RoomCategory } from "@/types"
 type BookingFormInput = z.input<typeof bookingCreateSchema>;
 type BookingFormOutput = z.output<typeof bookingCreateSchema>;
 type BookingUpdateInput = z.input<typeof bookingUpdateSchema>;
+type BookingFormValues = Omit<BookingFormInput, "checkInDate" | "checkOutDate"> & {
+  checkInDate: string;
+  checkOutDate: string;
+};
 
 type BookingFormDialogProps = {
   open: boolean;
@@ -55,8 +59,8 @@ export function BookingFormDialog({ open, onOpenChange, booking, rooms, guests, 
       })),
     []
   );
-  const form = useForm<BookingFormInput, unknown, BookingFormOutput>({
-    resolver: zodResolver(bookingCreateSchema),
+  const form = useForm<BookingFormValues>({
+    resolver: zodResolver(bookingCreateSchema) as unknown as Resolver<BookingFormValues>,
     defaultValues: {
       guestId: "",
       roomId: "",
@@ -119,7 +123,8 @@ export function BookingFormDialog({ open, onOpenChange, booking, rooms, guests, 
     }
   }
 
-  async function onSubmit(values: BookingFormOutput) {
+  async function onSubmit(values: BookingFormValues) {
+    const parsed = bookingCreateSchema.parse(values);
     const available = await checkAvailability(false);
     if (!available) {
       return;
@@ -129,14 +134,14 @@ export function BookingFormDialog({ open, onOpenChange, booking, rooms, guests, 
     try {
       const body: BookingFormOutput | BookingUpdateInput = booking
         ? {
-            guestId: values.guestId,
-            roomId: values.roomId,
-            checkInDate: values.checkInDate,
-            checkOutDate: values.checkOutDate,
-            status: values.status,
-            notes: values.notes
+            guestId: parsed.guestId,
+            roomId: parsed.roomId,
+            checkInDate: parsed.checkInDate,
+            checkOutDate: parsed.checkOutDate,
+            status: parsed.status,
+            notes: parsed.notes
           }
-        : values;
+        : parsed;
 
       const response = await fetch(booking ? `/api/bookings/${booking.id}` : "/api/bookings", {
         method: booking ? "PATCH" : "POST",

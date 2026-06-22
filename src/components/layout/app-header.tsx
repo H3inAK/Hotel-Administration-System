@@ -67,7 +67,7 @@ export function AppHeader() {
           <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gold-500 text-navy-950 shadow-md">
             <Building2 className="h-6 w-6" />
           </span>
-          <span className="hotel-heading text-2xl font-bold tracking-tight">Grand Mandalay</span>
+          <span className="text-xl font-semibold tracking-normal sm:text-[1.45rem]">Hotel Admin System</span>
         </Link>
         <nav className="hidden items-center gap-2 md:flex">
           {visibleNavItems.map((item) => {

@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Grand Mandalay Hotel Administration System",
+  title: "Hotel Admin System",
   description: "Room availability, booking, check-in, billing, and hotel reporting platform."
 };
 

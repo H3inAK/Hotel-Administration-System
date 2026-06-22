@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Presidential suite</title>
+  <desc id="desc">A presidential suite illustration with a spacious bed, terrace doors, and premium gold accents.</desc>
+  <defs>
+    <linearGradient id="pres-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fbfcff"/>
+      <stop offset="1" stop-color="#d7e1e8"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="1">
+      <stop offset="0" stop-color="#f2c15a"/>
+      <stop offset="1" stop-color="#b77718"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#pres-bg)"/>
+  <rect x="70" y="70" width="1060" height="462" rx="34" fill="#eef3f7"/>
+  <rect x="138" y="118" width="260" height="310" rx="24" fill="#8fb4c9"/>
+  <rect x="802" y="118" width="260" height="310" rx="24" fill="#8fb4c9"/>
+  <rect x="428" y="105" width="344" height="95" rx="48" fill="url(#gold)" opacity=".9"/>
+  <rect x="350" y="360" width="500" height="140" rx="34" fill="#111d34"/>
+  <rect x="395" y="298" width="410" height="122" rx="30" fill="#fffaf0"/>
+  <rect x="435" y="260" width="148" height="96" rx="22" fill="#e8eef3"/>
+  <rect x="614" y="260" width="148" height="96" rx="22" fill="#e8eef3"/>
+  <rect x="384" y="414" width="432" height="84" rx="26" fill="url(#gold)"/>
+  <rect x="112" y="448" width="190" height="64" rx="20" fill="#1f3150"/>
+  <rect x="898" y="448" width="190" height="64" rx="20" fill="#1f3150"/>
+  <rect x="70" y="532" width="1060" height="166" fill="#aa7446"/>
+  <path d="M118 606h964" stroke="#f2c15a" stroke-width="12" stroke-linecap="round" opacity=".42"/>
+  <circle cx="245" cy="188" r="42" fill="#f3d37d" opacity=".8"/>
+  <circle cx="955" cy="188" r="42" fill="#f3d37d" opacity=".8"/>
+</svg>

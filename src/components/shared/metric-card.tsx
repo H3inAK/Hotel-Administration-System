@@ -22,13 +22,13 @@ export function MetricCard({ title, value, helper, icon: Icon, tone = "slate" }:
   return (
     <Card className="card-hover overflow-hidden">
       <CardContent className="relative min-h-32 p-6">
-        <div className="min-w-0 pr-16">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">{title}</p>
-          <p className="hotel-heading mt-3 break-words text-[clamp(1.5rem,2vw,2rem)] font-bold leading-tight text-slate-950">{value}</p>
+        <div className="min-w-0 pr-14">
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{title}</p>
+          <p className="mt-3 whitespace-nowrap text-[clamp(1.45rem,1.6vw,1.8rem)] font-semibold leading-none tracking-normal text-slate-950">{value}</p>
           {helper ? <p className="mt-2 text-sm text-slate-500">{helper}</p> : null}
         </div>
-        <div className={cn("absolute right-5 top-5 flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl", toneClasses[tone])}>
-          <Icon className="h-6 w-6" />
+        <div className={cn("absolute right-5 top-5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl", toneClasses[tone])}>
+          <Icon className="h-5 w-5" />
         </div>
       </CardContent>
     </Card>

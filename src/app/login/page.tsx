@@ -70,7 +70,7 @@ export default function LoginPage() {
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-gold-500 text-navy-950 shadow-lg">
             <Building2 className="h-7 w-7" />
           </div>
-          <CardTitle className="mt-4 text-3xl">Grand Mandalay</CardTitle>
+          <CardTitle className="mt-4 text-3xl">Hotel Admin System</CardTitle>
           <p className="text-sm text-slate-500">Sign in to the Hotel Administration System</p>
         </CardHeader>
         <CardContent>

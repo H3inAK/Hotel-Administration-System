@@ -12,6 +12,8 @@ const bookingInclude = {
   services: { include: { service: true } }
 } satisfies Prisma.BookingInclude;
 
+const checkInReadyStatuses: BookingStatus[] = [BookingStatus.PENDING, BookingStatus.CONFIRMED];
+
 export async function POST(request: NextRequest) {
   const session = await requireApiSession(["ADMIN", "RECEPTIONIST"]);
   if (isAuthError(session)) {
@@ -27,7 +29,7 @@ export async function POST(request: NextRequest) {
         throw new Error("Booking not found.");
       }
 
-      if (![BookingStatus.PENDING, BookingStatus.CONFIRMED].includes(current.status)) {
+      if (!checkInReadyStatuses.includes(current.status)) {
         throw new Error("Only pending or confirmed bookings can be checked in.");
       }
 

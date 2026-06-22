@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1050" role="img" aria-labelledby="title desc">
+  <title id="title">Hotel lobby hero</title>
+  <desc id="desc">A polished hotel lobby scene with reception desk, warm lighting, and tall architectural columns.</desc>
+  <defs>
+    <linearGradient id="hero-bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#20314e"/>
+      <stop offset=".48" stop-color="#304965"/>
+      <stop offset="1" stop-color="#d6a047"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" x2="1">
+      <stop offset="0" stop-color="#6f4f34"/>
+      <stop offset=".5" stop-color="#c9934b"/>
+      <stop offset="1" stop-color="#503827"/>
+    </linearGradient>
+  </defs>
+  <rect width="1800" height="1050" fill="url(#hero-bg)"/>
+  <rect x="130" y="105" width="1540" height="650" rx="44" fill="#ffffff" opacity=".12"/>
+  <rect x="220" y="155" width="260" height="560" rx="34" fill="#f2d68d" opacity=".55"/>
+  <rect x="1320" y="155" width="260" height="560" rx="34" fill="#f2d68d" opacity=".55"/>
+  <rect x="560" y="150" width="680" height="370" rx="36" fill="#c9dae8" opacity=".75"/>
+  <path d="M620 455c95-90 170-120 255-55 62 47 102 22 158-48 65-82 126-66 177 24v144H620z" fill="#4d6f8a" opacity=".55"/>
+  <rect x="445" y="560" width="910" height="165" rx="36" fill="#111d34"/>
+  <rect x="520" y="500" width="760" height="94" rx="42" fill="#e8a522"/>
+  <rect x="0" y="735" width="1800" height="315" fill="url(#floor)"/>
+  <path d="M230 858h1340" stroke="#f5c35d" stroke-width="18" stroke-linecap="round" opacity=".35"/>
+  <path d="M380 990h1040" stroke="#f6df9a" stroke-width="10" stroke-linecap="round" opacity=".22"/>
+  <circle cx="900" cy="240" r="86" fill="#f5cf74" opacity=".72"/>
+</svg>

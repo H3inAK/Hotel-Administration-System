@@ -106,8 +106,7 @@ export function HomePageClient() {
         <div
           className="absolute inset-0 -z-20 bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2200&q=85')"
+            backgroundImage: "url('/images/hotel-hero.jpg')"
           }}
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950/90 via-navy-950/66 to-navy-900/35" />
@@ -120,7 +119,7 @@ export function HomePageClient() {
               ))}
             </div>
             <h1 className="hotel-heading text-5xl font-bold leading-tight sm:text-7xl">
-              Grand Mandalay
+              Hotel Admin System
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">
               Refined stays in Mandalay with live room availability, simple booking, and a hotel team ready to manage every arrival.

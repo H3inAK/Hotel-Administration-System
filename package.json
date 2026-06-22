@@ -1,8 +1,8 @@
 {
-  "name": "grand-horizon-hotel",
+  "name": "hotel-administration-system",
   "version": "1.0.0",
   "private": true,
-  "description": "Grand Mandalay Hotel Administration System built with Next.js, Prisma, PostgreSQL, and Tailwind CSS.",
+  "description": "Hotel Admin System built with Next.js, Prisma, PostgreSQL, and Tailwind CSS.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

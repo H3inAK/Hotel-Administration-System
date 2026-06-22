@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Deluxe hotel room</title>
+  <desc id="desc">A deluxe hotel room illustration with balcony curtains, layered bedding, and warm lighting.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f5f7fb"/>
+      <stop offset="1" stop-color="#d6e2ea"/>
+    </linearGradient>
+    <linearGradient id="curtain" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#d49b37"/>
+      <stop offset="1" stop-color="#8f5f1d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#bg)"/>
+  <rect x="95" y="82" width="1010" height="448" rx="30" fill="#edf3f7"/>
+  <rect x="170" y="108" width="220" height="360" rx="28" fill="url(#curtain)"/>
+  <rect x="810" y="108" width="220" height="360" rx="28" fill="url(#curtain)"/>
+  <rect x="360" y="120" width="480" height="285" rx="18" fill="#a9c9da"/>
+  <rect x="390" y="150" width="420" height="225" rx="12" fill="#78a9bf"/>
+  <path d="M390 342c58-45 103-63 164-35 42 19 77 13 126-28 56-47 97-37 130 11v85H390z" fill="#426e84" opacity=".7"/>
+  <rect x="307" y="355" width="586" height="142" rx="28" fill="#17233b"/>
+  <rect x="348" y="302" width="504" height="112" rx="28" fill="#f8fafc"/>
+  <rect x="382" y="268" width="170" height="92" rx="18" fill="#dbe7ee"/>
+  <rect x="574" y="268" width="244" height="92" rx="18" fill="#dbe7ee"/>
+  <rect x="332" y="408" width="536" height="88" rx="20" fill="#e8a522"/>
+  <rect x="95" y="530" width="1010" height="158" fill="#b87944"/>
+  <path d="M165 605h870" stroke="#8a5a32" stroke-width="18" stroke-linecap="round" opacity=".45"/>
+  <circle cx="1010" cy="270" r="46" fill="#f4cf75" opacity=".85"/>
+</svg>

@@ -10,6 +10,23 @@ export function formatCurrency(value: number | string) {
   }).format(Number.isFinite(amount) ? amount : 0);
 }
 
+export function formatCompactCurrency(value: number | string) {
+  const amount = typeof value === "string" ? Number(value) : value;
+  const safeAmount = Number.isFinite(amount) ? amount : 0;
+
+  if (Math.abs(safeAmount) >= 100000) {
+    const lakhValue = safeAmount / 100000;
+    const formatted = new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: lakhValue >= 10 ? 0 : 1,
+      maximumFractionDigits: lakhValue >= 10 ? 1 : 2
+    }).format(lakhValue);
+
+    return `MMK ${formatted} lakh`;
+  }
+
+  return formatCurrency(safeAmount);
+}
+
 export function formatDateValue(value: string | Date, pattern = "MMM d, yyyy") {
   const date = typeof value === "string" ? parseISO(value) : value;
   return format(date, pattern);

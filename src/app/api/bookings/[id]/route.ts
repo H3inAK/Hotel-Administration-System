@@ -13,6 +13,8 @@ const bookingInclude = {
   services: { include: { service: true } }
 } satisfies Prisma.BookingInclude;
 
+const inactiveBookingStatuses: BookingStatus[] = [BookingStatus.CANCELLED, BookingStatus.CHECKED_OUT];
+
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
@@ -54,7 +56,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       const checkInDate = input.checkInDate ?? existing.checkInDate;
       const checkOutDate = input.checkOutDate ?? existing.checkOutDate;
       const nextStatus = input.status ?? existing.status;
-      const shouldCheckAvailability = ![BookingStatus.CANCELLED, BookingStatus.CHECKED_OUT].includes(nextStatus as BookingStatus);
+      const shouldCheckAvailability = !inactiveBookingStatuses.includes(nextStatus);
       const availability = shouldCheckAvailability
         ? await ensureRoomCanBeBooked(tx, roomId, checkInDate, checkOutDate, existing.id)
         : null;
@@ -87,7 +89,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         await tx.room.update({ where: { id: roomId }, data: { status: RoomStatus.OCCUPIED } });
       }
 
-      if ([BookingStatus.CHECKED_OUT, BookingStatus.CANCELLED].includes(nextStatus as BookingStatus)) {
+      if (inactiveBookingStatuses.includes(nextStatus)) {
         await tx.room.update({ where: { id: roomId }, data: { status: RoomStatus.AVAILABLE } });
       }
 

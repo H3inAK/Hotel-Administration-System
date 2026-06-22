@@ -1,4 +1,4 @@
-# Grand Mandalay Hotel Administration System
+# Hotel Admin System
 
 A complete full-stack hotel administration project built with Next.js App Router, TypeScript, Tailwind CSS, Prisma ORM, PostgreSQL, Zod, React Hook Form, Zustand, bcryptjs, jose JWT sessions, lucide-react, date-fns, sonner, and Recharts.
 
@@ -24,7 +24,7 @@ The system supports public room browsing and booking, custom credentials authent
 ## Setup commands
 
 ```bash
-cd grand-horizon-hotel
+cd hotel-administration-system
 cp .env.example .env
 npm install
 docker compose up -d

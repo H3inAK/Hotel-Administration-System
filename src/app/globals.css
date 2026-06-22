@@ -38,8 +38,9 @@ textarea {
 }
 
 .hotel-heading {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: inherit;
   line-height: 1.08;
+  letter-spacing: 0;
 }
 
 .page-shell {

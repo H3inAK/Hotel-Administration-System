@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addDays, format } from "date-fns";
 import { CalendarCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
+import { type Resolver, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,10 @@ import { bookingCreateSchema } from "@/lib/validations/booking";
 import type { Room } from "@/types";
 
 type PublicBookingInput = z.input<typeof bookingCreateSchema>;
-type PublicBookingOutput = z.output<typeof bookingCreateSchema>;
+type PublicBookingValues = Omit<PublicBookingInput, "checkInDate" | "checkOutDate"> & {
+  checkInDate: string;
+  checkOutDate: string;
+};
 
 type PublicBookingDialogProps = {
   room: Room | null;
@@ -29,8 +32,8 @@ export function PublicBookingDialog({ room, open, onOpenChange }: PublicBookingD
   const [submitting, setSubmitting] = useState(false);
   const today = useMemo(() => new Date(), []);
   const tomorrow = useMemo(() => addDays(today, 1), [today]);
-  const form = useForm<PublicBookingInput, unknown, PublicBookingOutput>({
-    resolver: zodResolver(bookingCreateSchema),
+  const form = useForm<PublicBookingValues>({
+    resolver: zodResolver(bookingCreateSchema) as unknown as Resolver<PublicBookingValues>,
     defaultValues: {
       guest: {
         name: "",
@@ -62,17 +65,18 @@ export function PublicBookingDialog({ room, open, onOpenChange }: PublicBookingD
     }
   }, [form, room, today, tomorrow]);
 
-  async function onSubmit(values: PublicBookingOutput) {
+  async function onSubmit(values: PublicBookingValues) {
     if (!room) {
       return;
     }
 
+    const parsed = bookingCreateSchema.parse(values);
     setSubmitting(true);
     try {
       const response = await fetch("/api/bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, roomId: room.id, status: "CONFIRMED" })
+        body: JSON.stringify({ ...parsed, roomId: room.id, status: "CONFIRMED" })
       });
       const payload = (await response.json()) as { message?: string };
 

@@ -11,7 +11,7 @@ import { RoomManagement } from "@/components/rooms/room-management";
 import { MetricCard } from "@/components/shared/metric-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { formatCurrency } from "@/lib/format";
+import { formatCompactCurrency } from "@/lib/format";
 import { useDashboardStore, type AdminTab } from "@/stores/dashboard-store";
 import type { ReportSummary } from "@/types";
 
@@ -50,12 +50,12 @@ export function AdminDashboard() {
       <AppHeader />
       <main className="mx-auto min-h-[calc(100vh-160px)] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-900 text-white shadow-lg">
-            <TrendingUp className="h-7 w-7" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white shadow-lg">
+            <TrendingUp className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold leading-tight tracking-tight text-slate-950">Admin Dashboard</h1>
-            <p className="text-slate-500">Hotel management, room control, booking oversight, and analytics.</p>
+            <h1 className="text-3xl font-semibold leading-tight text-slate-950 sm:text-[2.15rem]">Admin Dashboard</h1>
+            <p className="mt-1 text-sm text-slate-500 sm:text-base">Hotel management, room control, booking oversight, and analytics.</p>
           </div>
         </div>
 
@@ -64,9 +64,9 @@ export function AdminDashboard() {
             Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} className="h-36" />)
           ) : (
             <>
-              <MetricCard title="Total Revenue" value={formatCurrency(summary.metrics.totalRevenue)} helper="Collected payments" icon={DollarSign} tone="green" />
+              <MetricCard title="Total Revenue" value={formatCompactCurrency(summary.metrics.totalRevenue)} helper="Collected payments" icon={DollarSign} tone="green" />
               <MetricCard title="Occupancy Rate" value={`${summary.metrics.occupancyRate}%`} helper={`${summary.metrics.occupiedRooms} of ${summary.metrics.totalRooms} rooms`} icon={TrendingUp} tone="blue" />
-              <MetricCard title="Total Rooms" value={summary.metrics.totalRooms} helper={`Avg ${formatCurrency(summary.metrics.averageRoomPrice)}/night`} icon={BedDouble} tone="purple" />
+              <MetricCard title="Total Rooms" value={summary.metrics.totalRooms} helper={`Avg ${formatCompactCurrency(summary.metrics.averageRoomPrice)}/night`} icon={BedDouble} tone="purple" />
               <MetricCard title="Total Guests" value={summary.metrics.totalGuests} helper="Registered guest records" icon={Users} tone="gold" />
             </>
           )}
