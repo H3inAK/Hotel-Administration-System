@@ -81,7 +81,7 @@ export function StaffDashboard() {
       <AppHeader />
       <main className="mx-auto min-h-[calc(100vh-160px)] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div>
-          <h1 className="hotel-heading text-4xl font-bold text-slate-950">Staff Dashboard</h1>
+          <h1 className="hotel-heading text-3xl font-bold text-slate-950">Staff Dashboard</h1>
           <p className="text-slate-500">Manage daily operations, guest check-ins, check-outs, and payments.</p>
         </div>
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">

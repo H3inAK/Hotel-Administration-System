@@ -14,6 +14,8 @@ const paymentInclude = {
   }
 } satisfies Prisma.PaymentInclude;
 
+const settledPaymentStatuses: PaymentStatus[] = [PaymentStatus.PAID, PaymentStatus.PARTIAL];
+
 export async function GET() {
   const session = await requireApiSession(["ADMIN", "RECEPTIONIST"]);
   if (isAuthError(session)) {
@@ -43,6 +45,19 @@ export async function POST(request: NextRequest) {
 
     if (!booking) {
       return NextResponse.json({ message: "Booking not found." }, { status: 404 });
+    }
+
+    if (!settledPaymentStatuses.includes(input.status as PaymentStatus)) {
+      return NextResponse.json({ message: "Only paid or partial transactions can record a positive payment." }, { status: 400 });
+    }
+
+    const paidTotal = booking.payments
+      .filter((payment) => settledPaymentStatuses.includes(payment.status))
+      .reduce((sum, payment) => sum + Number(payment.amount), 0);
+    const outstanding = Math.max(0, Number(booking.totalAmount) - paidTotal);
+
+    if (input.amount > outstanding + 0.01) {
+      return NextResponse.json({ message: `Payment cannot exceed the outstanding balance of MMK ${outstanding.toLocaleString("en-US")}.` }, { status: 400 });
     }
 
     const payment = await prisma.payment.create({

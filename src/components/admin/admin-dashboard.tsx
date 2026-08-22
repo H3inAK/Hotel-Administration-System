@@ -49,14 +49,9 @@ export function AdminDashboard() {
     <div className="page-shell">
       <AppHeader />
       <main className="mx-auto min-h-[calc(100vh-160px)] max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-navy-900 text-white shadow-lg">
-            <TrendingUp className="h-6 w-6" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-semibold leading-tight text-slate-950 sm:text-[2.15rem]">Admin Dashboard</h1>
-            <p className="mt-1 text-sm text-slate-500 sm:text-base">Hotel management, room control, booking oversight, and analytics.</p>
-          </div>
+        <div>
+          <h1 className="text-3xl font-bold leading-tight text-slate-950 sm:text-[1.75rem]">Admin Dashboard</h1>
+          <p className="text-sm text-slate-500">Hotel management, room control, booking oversight, and analytics.</p>
         </div>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">

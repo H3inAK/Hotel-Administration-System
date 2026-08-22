@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { addDays, addMonths, differenceInCalendarDays, startOfMonth, subDays } from "date-fns";
+import { addDays, differenceInCalendarDays, startOfMonth, subDays } from "date-fns";
 import { BookingStatus, PaymentMethod, PaymentStatus, PrismaClient, RoomStatus, UserRole } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -8,8 +8,8 @@ function nights(checkInDate: Date, checkOutDate: Date) {
   return Math.max(1, differenceInCalendarDays(checkOutDate, checkInDate));
 }
 
-function dateInMonth(monthOffset: number, day: number) {
-  const date = startOfMonth(addMonths(new Date(), monthOffset));
+function dateInMonth(month: number, day: number) {
+  const date = startOfMonth(new Date(2026, month - 1, 1));
   date.setDate(day);
   date.setHours(10, 0, 0, 0);
   return date;
@@ -82,14 +82,23 @@ async function main() {
     prisma.room.create({ data: { roomNumber: "101", categoryId: standard.id, pricePerNight: 85000, capacity: 2, status: RoomStatus.AVAILABLE, description: "A bright and comfortable room with city view, king bed, and modern amenities.", imageUrl: "/images/rooms/room-101.jpg" } }),
     prisma.room.create({ data: { roomNumber: "102", categoryId: standard.id, pricePerNight: 95000, capacity: 2, status: RoomStatus.AVAILABLE, description: "Cozy first-floor room with quick lobby and dining access.", imageUrl: "/images/rooms/room-102.jpg" } }),
     prisma.room.create({ data: { roomNumber: "103", categoryId: standard.id, pricePerNight: 105000, capacity: 2, status: RoomStatus.AVAILABLE, description: "Quiet standard room with warm tones and complimentary Wi-Fi.", imageUrl: "/images/rooms/room-103.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "104", categoryId: standard.id, pricePerNight: 90000, capacity: 2, status: RoomStatus.AVAILABLE, description: "Comfortable twin room with a reading corner and soft natural light.", imageUrl: "/images/rooms/room-104.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "105", categoryId: standard.id, pricePerNight: 110000, capacity: 2, status: RoomStatus.AVAILABLE, description: "Modern king room with a work desk and peaceful courtyard view.", imageUrl: "/images/rooms/room-105.jpg" } }),
     prisma.room.create({ data: { roomNumber: "201", categoryId: deluxe.id, pricePerNight: 145000, capacity: 3, status: RoomStatus.OCCUPIED, description: "Spacious deluxe room with panoramic garden views and premium bedding.", imageUrl: "/images/rooms/room-201.jpg" } }),
     prisma.room.create({ data: { roomNumber: "202", categoryId: deluxe.id, pricePerNight: 155000, capacity: 3, status: RoomStatus.AVAILABLE, description: "Elegant deluxe room featuring sitting area, rain shower, and city views.", imageUrl: "/images/rooms/room-202.jpg" } }),
     prisma.room.create({ data: { roomNumber: "203", categoryId: deluxe.id, pricePerNight: 165000, capacity: 3, status: RoomStatus.AVAILABLE, description: "Deluxe corner room with designer furnishings and balcony.", imageUrl: "/images/rooms/room-203.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "204", categoryId: deluxe.id, pricePerNight: 150000, capacity: 3, status: RoomStatus.AVAILABLE, description: "Airy deluxe room with lounge seating and floor-to-ceiling curtains.", imageUrl: "/images/rooms/room-204.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "205", categoryId: deluxe.id, pricePerNight: 170000, capacity: 3, status: RoomStatus.AVAILABLE, description: "Contemporary deluxe room with premium linens and warm ambient lighting.", imageUrl: "/images/rooms/room-205.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "206", categoryId: deluxe.id, pricePerNight: 175000, capacity: 3, status: RoomStatus.AVAILABLE, description: "Quiet deluxe retreat with a sofa, workspace, and generous storage.", imageUrl: "/images/rooms/room-206.jpg" } }),
     prisma.room.create({ data: { roomNumber: "301", categoryId: suite.id, pricePerNight: 275000, capacity: 4, status: RoomStatus.AVAILABLE, description: "Luxury suite with separate living area, jacuzzi tub, and butler service.", imageUrl: "/images/rooms/room-301.jpg" } }),
     prisma.room.create({ data: { roomNumber: "302", categoryId: suite.id, pricePerNight: 295000, capacity: 4, status: RoomStatus.MAINTENANCE, description: "Corner suite with floor-to-ceiling windows and panoramic skyline views.", imageUrl: "/images/rooms/room-302.jpg" } }),
     prisma.room.create({ data: { roomNumber: "303", categoryId: suite.id, pricePerNight: 315000, capacity: 4, status: RoomStatus.AVAILABLE, description: "Executive suite with lounge area and private work desk.", imageUrl: "/images/rooms/room-303.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "304", categoryId: suite.id, pricePerNight: 285000, capacity: 4, status: RoomStatus.AVAILABLE, description: "Family suite with separate sleeping and living spaces for longer stays.", imageUrl: "/images/rooms/room-304.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "305", categoryId: suite.id, pricePerNight: 325000, capacity: 4, status: RoomStatus.AVAILABLE, description: "Skyline suite with a spacious lounge and elegant dining corner.", imageUrl: "/images/rooms/room-305.jpg" } }),
     prisma.room.create({ data: { roomNumber: "401", categoryId: presidential.id, pricePerNight: 590000, capacity: 6, status: RoomStatus.AVAILABLE, description: "Presidential suite with private terrace, chef kitchen, and premium concierge service.", imageUrl: "/images/rooms/room-401.jpg" } }),
-    prisma.room.create({ data: { roomNumber: "402", categoryId: presidential.id, pricePerNight: 690000, capacity: 6, status: RoomStatus.AVAILABLE, description: "Grand presidential suite with luxury lounge, dining area, and VIP service.", imageUrl: "/images/rooms/room-402.jpg" } })
+    prisma.room.create({ data: { roomNumber: "402", categoryId: presidential.id, pricePerNight: 690000, capacity: 6, status: RoomStatus.AVAILABLE, description: "Grand presidential suite with luxury lounge, dining area, and VIP service.", imageUrl: "/images/rooms/room-402.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "403", categoryId: presidential.id, pricePerNight: 625000, capacity: 6, status: RoomStatus.AVAILABLE, description: "Executive presidential suite with private lounge and formal dining area.", imageUrl: "/images/rooms/room-403.jpg" } }),
+    prisma.room.create({ data: { roomNumber: "404", categoryId: presidential.id, pricePerNight: 720000, capacity: 6, status: RoomStatus.AVAILABLE, description: "Top-floor signature suite with panoramic views and dedicated guest service.", imageUrl: "/images/rooms/room-404.jpg" } })
   ]);
 
   const [guestOne, guestTwo, guestThree, guestFour, guestFive] = await Promise.all([
@@ -156,7 +165,7 @@ async function main() {
 
   const checkedInBooking = await createBooking({
     guestId: guestOne.id,
-    roomIndex: 3,
+    roomIndex: 5,
     checkInDate: subDays(new Date(), 1),
     checkOutDate: addDays(new Date(), 2),
     status: BookingStatus.CHECKED_IN,
@@ -211,30 +220,71 @@ async function main() {
     notes: "Anniversary stay."
   });
 
-  const monthlyBookings = [
-    { monthOffset: -5, day: 6, guestId: guestOne.id, roomIndex: 0, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: breakfast.id, quantity: 2, unitPrice: 18000 }], paymentMethod: PaymentMethod.CARD },
-    { monthOffset: -5, day: 18, guestId: guestThree.id, roomIndex: 4, nights: 3, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: airportTransfer.id, quantity: 1, unitPrice: 45000 }], paymentMethod: PaymentMethod.BANK_TRANSFER },
-    { monthOffset: -4, day: 8, guestId: guestTwo.id, roomIndex: 6, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: spa.id, quantity: 1, unitPrice: 85000 }], paymentMethod: PaymentMethod.CARD },
-    { monthOffset: -4, day: 21, guestId: guestFour.id, roomIndex: 2, nights: 4, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: laundry.id, quantity: 2, unitPrice: 20000 }], paymentMethod: PaymentMethod.CASH },
-    { monthOffset: -3, day: 5, guestId: guestFive.id, roomIndex: 8, nights: 3, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: breakfast.id, quantity: 3, unitPrice: 18000 }], paymentMethod: PaymentMethod.CARD },
-    { monthOffset: -3, day: 23, guestId: guestOne.id, roomIndex: 10, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: lateCheckout.id, quantity: 1, unitPrice: 35000 }], paymentMethod: PaymentMethod.BANK_TRANSFER },
-    { monthOffset: -2, day: 9, guestId: guestThree.id, roomIndex: 5, nights: 3, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: breakfast.id, quantity: 2, unitPrice: 18000 }], paymentMethod: PaymentMethod.CASH },
-    { monthOffset: -2, day: 19, guestId: guestTwo.id, roomIndex: 7, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: spa.id, quantity: 1, unitPrice: 85000 }], paymentMethod: PaymentMethod.CARD },
-    { monthOffset: -1, day: 7, guestId: guestFour.id, roomIndex: 1, nights: 3, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: airportTransfer.id, quantity: 1, unitPrice: 45000 }], paymentMethod: PaymentMethod.BANK_TRANSFER },
-    { monthOffset: -1, day: 24, guestId: guestFive.id, roomIndex: 9, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: breakfast.id, quantity: 4, unitPrice: 18000 }], paymentMethod: PaymentMethod.CARD },
-    { monthOffset: 0, day: 4, guestId: guestOne.id, roomIndex: 2, nights: 2, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: laundry.id, quantity: 1, unitPrice: 20000 }], paymentMethod: PaymentMethod.CASH },
-    { monthOffset: 0, day: 12, guestId: guestThree.id, roomIndex: 6, nights: 3, status: BookingStatus.CHECKED_OUT, services: [{ serviceId: spa.id, quantity: 1, unitPrice: 85000 }], paymentMethod: PaymentMethod.CARD }
+  await createBooking({
+    guestId: guestOne.id,
+    roomIndex: 2,
+    checkInDate: addDays(new Date(), 5),
+    checkOutDate: addDays(new Date(), 8),
+    status: BookingStatus.CANCELLED,
+    createdById: receptionist.id,
+    services: [{ serviceId: breakfast.id, quantity: 1, unitPrice: 18000 }],
+    notes: "Guest cancelled due to travel changes."
+  });
+
+  const monthlyBookings = Array.from({ length: 9 }).flatMap((_, index) => {
+    const month = index + 1;
+    const guestId = [guestOne.id, guestTwo.id, guestThree.id, guestFour.id, guestFive.id][index % 5];
+    return [
+      { month, day: 6, guestId, roomIndex: index % 3, nights: 2 + (index % 2), status: BookingStatus.CHECKED_OUT, services: [{ serviceId: breakfast.id, quantity: 2, unitPrice: 18000 }], paymentMethod: PaymentMethod.CARD },
+      { month, day: 19, guestId, roomIndex: 3 + (index % 8), nights: 2 + ((index + 1) % 3), status: BookingStatus.CHECKED_OUT, services: [{ serviceId: index % 2 ? spa.id : airportTransfer.id, quantity: 1, unitPrice: index % 2 ? 85000 : 45000 }], paymentMethod: PaymentMethod.BANK_TRANSFER }
+    ];
+  });
+
+  monthlyBookings.push(
+    { month: 9, day: 25, guestId: guestFive.id, roomIndex: 9, nights: 2, status: BookingStatus.CHECKED_OUT, services: [], paymentMethod: PaymentMethod.CARD }
+  );
+
+  const cancelledBookings = [
+    { month: 3, day: 12, guestId: guestTwo.id, roomIndex: 4, nights: 3, services: [{ serviceId: breakfast.id, quantity: 2, unitPrice: 18000 }], paymentMethod: PaymentMethod.CARD },
+    { month: 6, day: 8, guestId: guestFour.id, roomIndex: 7, nights: 2, services: [{ serviceId: spa.id, quantity: 1, unitPrice: 85000 }], paymentMethod: PaymentMethod.BANK_TRANSFER }
   ];
 
+  for (const item of cancelledBookings) {
+    const checkInDate = dateInMonth(item.month, item.day);
+    const booking = await createBooking({
+      guestId: item.guestId,
+      roomIndex: item.roomIndex,
+      checkInDate,
+      checkOutDate: addDays(checkInDate, item.nights),
+      status: BookingStatus.CANCELLED,
+      createdById: item.month % 2 === 0 ? admin.id : receptionist.id,
+      services: item.services,
+      createdAt: subDays(checkInDate, 5),
+      notes: "Guest cancelled reservation."
+    });
+
+    await prisma.payment.create({
+      data: {
+        bookingId: booking.id,
+        amount: Number(booking.totalAmount),
+        method: item.paymentMethod,
+        status: PaymentStatus.REFUNDED,
+        paidAt: subDays(checkInDate, 2),
+        createdAt: subDays(checkInDate, 2),
+        updatedAt: subDays(checkInDate, 1)
+      }
+    });
+  }
+
   for (const item of monthlyBookings) {
-    const checkInDate = dateInMonth(item.monthOffset, item.day);
+    const checkInDate = dateInMonth(item.month, item.day);
     const booking = await createBooking({
       guestId: item.guestId,
       roomIndex: item.roomIndex,
       checkInDate,
       checkOutDate: addDays(checkInDate, item.nights),
       status: item.status,
-      createdById: item.monthOffset % 2 === 0 ? admin.id : receptionist.id,
+      createdById: item.month % 2 === 0 ? admin.id : receptionist.id,
       services: item.services,
       createdAt: subDays(checkInDate, 8),
       notes: "Seeded monthly booking for revenue reporting."

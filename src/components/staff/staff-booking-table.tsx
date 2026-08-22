@@ -49,7 +49,11 @@ export function StaffBookingTable({ bookings, onChanged, onPayment }: StaffBooki
       <TableBody>
         {bookings.map((booking) => {
           const canCheckIn = ["PENDING", "CONFIRMED"].includes(booking.status);
-          const canCheckOut = booking.status === "CHECKED_IN";
+          const paidAmount = booking.payments
+            .filter((payment) => ["PAID", "PARTIAL"].includes(payment.status))
+            .reduce((sum, payment) => sum + payment.amount, 0);
+          const outstanding = Math.max(0, booking.totalAmount - paidAmount);
+          const canCheckOut = booking.status === "CHECKED_IN" && outstanding <= 0.01;
           return (
             <TableRow key={booking.id}>
               <TableCell>
@@ -71,7 +75,13 @@ export function StaffBookingTable({ bookings, onChanged, onPayment }: StaffBooki
                   <Button variant="outline" size="sm" disabled={!canCheckIn} onClick={() => void runAction("/api/bookings/check-in", booking.id, "Guest checked in")}> 
                     <LogIn className="h-4 w-4" /> Check-in
                   </Button>
-                  <Button variant="outline" size="sm" disabled={!canCheckOut} onClick={() => void runAction("/api/bookings/check-out", booking.id, "Guest checked out")}> 
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={!canCheckOut}
+                    title={booking.status === "CHECKED_IN" && outstanding > 0.01 ? `${formatCurrency(outstanding)} must be paid before check-out` : undefined}
+                    onClick={() => void runAction("/api/bookings/check-out", booking.id, "Guest checked out")}
+                  >
                     <LogOut className="h-4 w-4" /> Check-out
                   </Button>
                   <Button variant="gold" size="sm" onClick={() => onPayment(booking)}>

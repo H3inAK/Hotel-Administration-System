@@ -1,4 +1,4 @@
-import { BookingStatus, Prisma, RoomStatus } from "@prisma/client";
+import { BookingStatus, PaymentStatus, Prisma, RoomStatus } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthError, requireApiSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
@@ -29,6 +29,14 @@ export async function POST(request: NextRequest) {
 
       if (current.status !== BookingStatus.CHECKED_IN) {
         throw new Error("Only checked-in bookings can be checked out.");
+      }
+
+      const payments = await tx.payment.findMany({
+        where: { bookingId: current.id, status: { in: [PaymentStatus.PAID, PaymentStatus.PARTIAL] } }
+      });
+      const paidTotal = payments.reduce((sum, p) => sum + Number(p.amount), 0);
+      if (paidTotal < Number(current.totalAmount)) {
+        throw new Error("Full payment is required before check-out.");
       }
 
       await tx.room.update({ where: { id: current.roomId }, data: { status: RoomStatus.AVAILABLE } });

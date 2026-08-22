@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { formatCurrency } from "@/lib/format";
 import { paymentCreateSchema, type PaymentCreateInput } from "@/lib/validations/payment";
-import type { Booking, PaymentMethod, PaymentStatus } from "@/types";
+import type { Booking, PaymentMethod } from "@/types";
 
 type PaymentDialogProps = {
   booking: Booking | null;
@@ -23,7 +23,10 @@ type PaymentDialogProps = {
 
 export function PaymentDialog({ booking, open, onOpenChange, onSaved }: PaymentDialogProps) {
   const [submitting, setSubmitting] = useState(false);
-  const paidAmount = useMemo(() => booking?.payments.reduce((sum, payment) => sum + payment.amount, 0) ?? 0, [booking]);
+  const paidAmount = useMemo(
+    () => booking?.payments.filter((payment) => ["PAID", "PARTIAL"].includes(payment.status)).reduce((sum, payment) => sum + payment.amount, 0) ?? 0,
+    [booking]
+  );
   const outstanding = Math.max(0, (booking?.totalAmount ?? 0) - paidAmount);
   const methodOptions = useMemo(
     () => [
@@ -31,15 +34,6 @@ export function PaymentDialog({ booking, open, onOpenChange, onSaved }: PaymentD
       { value: "CARD", label: "Card" },
       { value: "BANK_TRANSFER", label: "Bank Transfer" },
       { value: "MOBILE_PAY", label: "Mobile Pay" }
-    ],
-    []
-  );
-  const statusOptions = useMemo(
-    () => [
-      { value: "PAID", label: "Paid" },
-      { value: "PARTIAL", label: "Partial" },
-      { value: "UNPAID", label: "Unpaid" },
-      { value: "REFUNDED", label: "Refunded" }
     ],
     []
   );
@@ -55,11 +49,12 @@ export function PaymentDialog({ booking, open, onOpenChange, onSaved }: PaymentD
 
   useEffect(() => {
     if (booking && open) {
+      const nextAmount = outstanding > 0 ? outstanding : booking.totalAmount;
       form.reset({
         bookingId: booking.id,
-        amount: outstanding || booking.totalAmount,
+        amount: nextAmount,
         method: "CASH",
-        status: outstanding > 0 && outstanding < booking.totalAmount ? "PARTIAL" : "PAID"
+        status: nextAmount >= booking.totalAmount ? "PAID" : "PARTIAL"
       });
     }
   }, [booking, form, open, outstanding]);
@@ -70,7 +65,10 @@ export function PaymentDialog({ booking, open, onOpenChange, onSaved }: PaymentD
       const response = await fetch("/api/payments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values)
+        body: JSON.stringify({
+          ...values,
+          status: values.amount + paidAmount >= (booking?.totalAmount ?? 0) - 0.01 ? "PAID" : "PARTIAL"
+        })
       });
       const payload = (await response.json()) as { message?: string };
       if (!response.ok) {
@@ -98,28 +96,17 @@ export function PaymentDialog({ booking, open, onOpenChange, onSaved }: PaymentD
       <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-2">
           <Label>Amount</Label>
-          <Input type="number" step="0.01" {...form.register("amount")} />
+          <Input type="number" step="0.01" max={outstanding || undefined} {...form.register("amount")} />
           {form.formState.errors.amount ? <p className="text-sm text-red-600">{form.formState.errors.amount.message}</p> : null}
         </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="space-y-2">
-            <Label>Method</Label>
-            <FilterSelect
-              ariaLabel="Select payment method"
-              value={form.watch("method")}
-              options={methodOptions}
-              onChange={(value) => form.setValue("method", value as PaymentMethod, { shouldDirty: true, shouldValidate: true })}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label>Status</Label>
-            <FilterSelect
-              ariaLabel="Select payment status"
-              value={form.watch("status")}
-              options={statusOptions}
-              onChange={(value) => form.setValue("status", value as PaymentStatus, { shouldDirty: true, shouldValidate: true })}
-            />
-          </div>
+        <div className="space-y-2">
+          <Label>Method</Label>
+          <FilterSelect
+            ariaLabel="Select payment method"
+            value={form.watch("method")}
+            options={methodOptions}
+            onChange={(value) => form.setValue("method", value as PaymentMethod, { shouldDirty: true, shouldValidate: true })}
+          />
         </div>
         <div className="flex justify-end">
           <Button type="submit" variant="gold" disabled={submitting || !booking}>

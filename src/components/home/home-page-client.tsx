@@ -113,12 +113,7 @@ export function HomePageClient() {
         <div className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-navy-950 to-transparent" />
         <div className="mx-auto grid min-h-[640px] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.08fr_0.92fr] lg:px-8">
           <div className="max-w-3xl">
-            <div className="mb-5 flex items-center gap-2 text-gold-400">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Sparkles key={index} className="h-4 w-4 fill-current" />
-              ))}
-            </div>
-            <h1 className="hotel-heading text-5xl font-bold leading-tight sm:text-7xl">
+            <h1 className="hotel-heading text-4xl font-bold leading-tight sm:text-5xl">
               Hotel Admin System
             </h1>
             <p className="mt-5 max-w-2xl text-lg leading-8 text-white/85">
@@ -154,19 +149,19 @@ export function HomePageClient() {
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-gold-200">Tonight availability</p>
             <div className="mt-5 grid grid-cols-2 gap-3">
               <div className="rounded-lg border border-white/50 bg-white/70 p-4 text-navy-950 shadow-sm backdrop-blur-sm">
-                <p className="hotel-heading text-4xl font-bold"><CountUp value={availableRooms} /></p>
+                <p className="hotel-heading text-3xl font-bold"><CountUp value={availableRooms} /></p>
                 <p className="mt-1 text-sm text-slate-600">Rooms available</p>
               </div>
               <div className="rounded-lg border border-white/50 bg-white/70 p-4 text-navy-950 shadow-sm backdrop-blur-sm">
-                <p className="hotel-heading text-4xl font-bold"><CountUp value={categories.length} /></p>
+                <p className="hotel-heading text-3xl font-bold"><CountUp value={categories.length} /></p>
                 <p className="mt-1 text-sm text-slate-600">Room types</p>
               </div>
               <div className="rounded-lg border border-white/50 bg-white/70 p-4 text-navy-950 shadow-sm backdrop-blur-sm">
-                <p className="hotel-heading text-4xl font-bold"><CountUp value={totalRooms} /></p>
+                <p className="hotel-heading text-3xl font-bold"><CountUp value={totalRooms} /></p>
                 <p className="mt-1 text-sm text-slate-600">Total rooms</p>
               </div>
               <div className="rounded-lg border border-white/50 bg-white/70 p-4 text-navy-950 shadow-sm backdrop-blur-sm">
-                <p className="hotel-heading text-4xl font-bold"><CountUp value={25} suffix="+" /></p>
+                <p className="hotel-heading text-3xl font-bold"><CountUp value={25} suffix="+" /></p>
                 <p className="mt-1 text-sm text-slate-600">Years serving guests</p>
               </div>
             </div>
@@ -175,19 +170,19 @@ export function HomePageClient() {
         <div className="relative border-t border-white/10 bg-navy-900/90 lg:hidden">
           <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-8 text-center sm:grid-cols-4 sm:px-6 lg:px-8">
             <div>
-              <p className="hotel-heading text-3xl font-bold text-gold-400"><CountUp value={totalRooms} /></p>
+              <p className="hotel-heading text-2xl font-bold text-gold-400"><CountUp value={totalRooms} /></p>
               <p className="text-sm text-white/70">Total Rooms</p>
             </div>
             <div>
-              <p className="hotel-heading text-3xl font-bold text-gold-400"><CountUp value={availableRooms} /></p>
+              <p className="hotel-heading text-2xl font-bold text-gold-400"><CountUp value={availableRooms} /></p>
               <p className="text-sm text-white/70">Available Now</p>
             </div>
             <div>
-              <p className="hotel-heading text-3xl font-bold text-gold-400"><CountUp value={categories.length} /></p>
+              <p className="hotel-heading text-2xl font-bold text-gold-400"><CountUp value={categories.length} /></p>
               <p className="text-sm text-white/70">Room Types</p>
             </div>
             <div>
-              <p className="hotel-heading text-3xl font-bold text-gold-400"><CountUp value={25} suffix="+" /></p>
+              <p className="hotel-heading text-2xl font-bold text-gold-400"><CountUp value={25} suffix="+" /></p>
               <p className="text-sm text-white/70">Years of Excellence</p>
             </div>
           </div>

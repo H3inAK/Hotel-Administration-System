@@ -112,9 +112,10 @@ export type SummaryMetric = {
   pendingArrivals: number;
 };
 
-export type MonthlyRevenue = {
-  month: string;
+export type RevenueTrend = {
+  period: string;
   revenue: number;
+  [roomType: string]: number | string;
 };
 
 export type RevenueByRoomType = {
@@ -131,10 +132,15 @@ export type StatusBreakdown = {
 
 export type ReportSummary = {
   metrics: SummaryMetric;
-  monthlyRevenue: MonthlyRevenue[];
+  revenueTrend: RevenueTrend[];
   revenueByRoomType: RevenueByRoomType[];
   statusBreakdown: StatusBreakdown[];
   recentBookings: Booking[];
+  reportRange: {
+    from: string;
+    to: string;
+    granularity: "day" | "month";
+  };
 };
 
 export type RoomListResponse = {
